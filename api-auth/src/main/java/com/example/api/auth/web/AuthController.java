@@ -3,6 +3,12 @@ package com.example.api.auth.web;
 import com.example.api.auth.core.entity.User;
 import com.example.api.auth.core.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,9 +18,21 @@ public class AuthController {
 
     private final AuthService service;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @PostMapping("/token")
-    public String getToken(@RequestBody User user) {
-        return service.generateToken(user.getUsername());
+    public ResponseEntity<String> getToken(@RequestBody User user) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        HttpHeaders responseHeaders = new HttpHeaders();
+
+        if (authenticate.isAuthenticated()) {
+            responseHeaders.set(HttpHeaders.AUTHORIZATION, service.generateToken(user.getUsername()));
+            return ResponseEntity.ok().headers(responseHeaders).body("");
+        } else {
+            throw new RuntimeException("Acesso inválido");
+        }
+
     }
 
     @GetMapping("/validate")
