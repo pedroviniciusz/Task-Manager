@@ -23,11 +23,11 @@ public class AuthController {
 
     @PostMapping("/token")
     public ResponseEntity<String> getToken(@RequestBody User user) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         HttpHeaders responseHeaders = new HttpHeaders();
 
-        if (authenticate.isAuthenticated()) {
-            responseHeaders.set(HttpHeaders.AUTHORIZATION, service.generateToken(user.getUsername()));
+        if (authentication.isAuthenticated()) {
+            responseHeaders.set(HttpHeaders.AUTHORIZATION, service.generateToken(authentication));
             return ResponseEntity.ok().headers(responseHeaders).body("");
         } else {
             throw new RuntimeException("Acesso inválido");

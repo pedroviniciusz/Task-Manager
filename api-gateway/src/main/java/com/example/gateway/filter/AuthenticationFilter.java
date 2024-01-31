@@ -1,5 +1,6 @@
 package com.example.gateway.filter;
 
+import com.example.gateway.core.exception.GatewayException;
 import com.example.gateway.core.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -25,7 +26,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return ((exchange, chain) -> {
             if (validator.isSecured.test(exchange.getRequest())) {
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                    throw new RuntimeException("Header de auth não encontrado");
+                    throw new GatewayException("Missin authorization header");
                 }
 
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
@@ -37,7 +38,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 try {
                     jwtService.validateToken(authHeader);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    throw new GatewayException("Authorization header is invalid");
                 }
 
             }
