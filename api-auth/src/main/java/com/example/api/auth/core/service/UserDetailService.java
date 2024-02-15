@@ -2,6 +2,7 @@ package com.example.api.auth.core.service;
 
 import com.example.api.auth.core.entity.User;
 import com.example.api.auth.core.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +20,7 @@ public class UserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> credential = repository.findByUsername(username);
-        return credential.map(User::new).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        return credential.map(User::new).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
 }

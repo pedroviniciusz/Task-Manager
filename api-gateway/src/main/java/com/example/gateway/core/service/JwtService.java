@@ -31,13 +31,12 @@ public class JwtService {
         return user != null;
     }
 
-    private String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    public String extractUsername(String token) {
+        return extractClaim(token).getSubject();
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsTFunction) {
-        Claims claims = extractAllClaims(token);
-        return claimsTFunction.apply(claims);
+    public Claims extractClaim(String token) {
+        return extractAllClaims(token);
     }
 
     private Claims extractAllClaims(String token) {

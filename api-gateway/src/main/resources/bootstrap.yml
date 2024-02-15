@@ -10,9 +10,7 @@ spring:
           uri: lb://API-AUTH
           predicates:
             - Path=/api/auth/**
+          filters:
+            - AuthenticationFilter
 server:
   port: 8765
-
-logging:
-  level:
-    root: info

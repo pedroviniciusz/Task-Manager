@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,15 +28,18 @@ public class JwtService {
     }
 
     public String generateToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+        Collection<String> authorities = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", authorities);
+        claims.put("authorities", authorities);
         return createToken(claims, authentication.getName());
     }
 
     private String createToken(Map<String, Object> claims, String username) {
         return Jwts.builder()
-                .setClaims(claims)
+                .addClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(env.getProperty("auth.expiration.time"))))
