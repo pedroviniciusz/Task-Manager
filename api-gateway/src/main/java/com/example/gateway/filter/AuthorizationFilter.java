@@ -51,6 +51,9 @@ public class AuthorizationFilter implements ServerSecurityContextRepository {
                 final String user = jwtService.extractUsername(authHeader);
                 final String authorities = jwtService.extractClaim(authHeader).get("authorities").toString();
 
+                req.mutate().header("loggendInUser", user).build();
+                req.mutate().header("authorities", authorities).build();
+
                 return Mono.just(new SecurityContextImpl(new UsernamePasswordAuthenticationToken(user, null, parseAuthorities(authorities))));
 
             } catch (ExpiredJwtException e) {

@@ -12,5 +12,12 @@ spring:
             - Path=/api/auth/**
           filters:
             - AuthenticationFilter
+
+        - id: api-task
+          uri: lb://API-TASK
+          predicates:
+            - Path=/api/task/**
+          filters:
+            - AuthenticationFilter
 server:
   port: 8765
