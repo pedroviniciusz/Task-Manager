@@ -20,7 +20,13 @@ public class GatewayConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(path -> path
-                        .pathMatchers("/api/auth/**", "/actuator/**", "/error/**").permitAll()
+                        .pathMatchers("/api/auth/token",
+                                "/api/auth/validate",
+                                "/eureka",
+                                "/actuator/**",
+                                "/webjars/**",
+                                "/v3/api-docs/**",
+                                "/*/*/v3/api-docs").permitAll()
                         .anyExchange().authenticated()
                 )
                 .securityContextRepository(authorizationFilter)

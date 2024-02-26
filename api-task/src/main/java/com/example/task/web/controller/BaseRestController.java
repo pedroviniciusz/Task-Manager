@@ -1,4 +1,4 @@
-package com.example.task.web;
+package com.example.task.web.controller;
 
 import org.springframework.http.ResponseEntity;
 

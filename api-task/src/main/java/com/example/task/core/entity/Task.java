@@ -27,7 +27,7 @@ public class Task extends BaseEntity {
     private int id;
 
     @Column
-    private String name;
+    private String title;
 
     @Column
     private String description;
@@ -37,6 +37,10 @@ public class Task extends BaseEntity {
 
     @Column
     private boolean completed;
+
+    @ManyToOne
+    @JoinColumn(name = "priority_id")
+    private TaskPriority priority;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

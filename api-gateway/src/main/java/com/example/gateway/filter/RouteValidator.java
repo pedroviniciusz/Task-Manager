@@ -14,7 +14,8 @@ public class RouteValidator {
             "/api/auth/validate",
             "/eureka",
             "/actuator",
-            "/error"
+            "/webjars",
+            "/v3/api-docs"
     );
 
     public Predicate<ServerHttpRequest> isSecured =

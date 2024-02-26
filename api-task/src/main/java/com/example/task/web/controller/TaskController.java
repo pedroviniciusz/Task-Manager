@@ -1,9 +1,10 @@
-package com.example.task.web;
+package com.example.task.web.controller;
 
 import com.example.task.core.entity.Task;
 import com.example.task.core.entity.User;
 import com.example.task.core.service.TaskService;
 import com.example.task.core.service.UserService;
+import com.example.task.web.dto.TaskDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,14 @@ public class TaskController extends BaseRestController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> findById(@PathVariable int id) {
-        return writeResponseBody(service.findTaskById(id));
+    public ResponseEntity<TaskDto> findById(@PathVariable int id) {
+        return writeResponseBody(TaskDto.transferToDto(service.findTaskById(id)));
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<Task>> findByLoggedInUser(@RequestHeader(name = "loggendInUser") String username) {
+    public ResponseEntity<List<TaskDto>> findByLoggedInUser(@RequestHeader(name = "loggendInUser") String username) {
         User user = userService.findByUsername(username);
-        return writeResponseBody(service.findTaskByUser(user.getId()));
+        return writeResponseBody(TaskDto.transferToDtoList(service.findTaskByUser(user.getId())));
     }
 
     @PostMapping

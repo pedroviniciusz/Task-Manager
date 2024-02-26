@@ -30,7 +30,7 @@ public class TaskService {
     public void updateTask(int id, Task updatedTask) {
 
         Task task = findTaskById(id);
-        task.setName(updatedTask.getName());
+        task.setTitle(updatedTask.getTitle());
         task.setDescription(updatedTask.getDescription());
         task.setEndDate(updatedTask.getEndDate());
         task.setCompleted(updatedTask.isCompleted());

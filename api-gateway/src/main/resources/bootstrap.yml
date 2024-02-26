@@ -12,12 +12,28 @@ spring:
             - Path=/api/auth/**
           filters:
             - AuthenticationFilter
-
         - id: api-task
           uri: lb://API-TASK
           predicates:
             - Path=/api/task/**
           filters:
             - AuthenticationFilter
+            - RewritePath=/api/task/(?<path>.*), /$\{path}
+      discovery:
+        locator:
+          enabled: true
 server:
   port: 8765
+
+springdoc:
+  group-configs:
+    - group: API-TASK
+      paths-to-match:
+        - /api/task/**
+      display-name: Api Task
+  swagger-ui:
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+    urls:
+      - url: /api/task/v3/api-docs
+        name: Api Task
