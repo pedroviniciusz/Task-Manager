@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: gateway-api
+  cloud:
+    config:
+      uri: http://localhost:8888
+    gateway:
+      routes:
+        - id: auth-api
+          uri: lb://AUTH-API
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - AuthenticationFilter
+
+        - id: task-api
+          uri: lb://TASK-API
+          predicates:
+            - Path=/api/task/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/task/(?<path>.*), /$\{path}
+
+        - id: user-api
+          uri: lb://USER-API
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/user/(?<path>.*), /$\{path}
+      discovery:
+        locator:
+          enabled: true
+server:
+  port: 8765
+
+springdoc:
+  group-configs:
+    - group: TASK-API
+      paths-to-match:
+        - /api/task/**
+      display-name: Task Api
+    - group: USER-API
+      paths-to-match:
+        - /api/user/**
+      display-name: User Api
+  swagger-ui:
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+    urls:
+      - url: /api/task/v3/api-docs
+        name: Task Api
+      - url: /api/user/v3/api-docs
+        name: User Api
+
+logging:
+  level:
+    root: trace
