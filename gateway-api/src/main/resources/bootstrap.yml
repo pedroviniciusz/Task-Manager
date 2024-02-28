@@ -52,7 +52,3 @@ springdoc:
         name: Task Api
       - url: /api/user/v3/api-docs
         name: User Api
-
-logging:
-  level:
-    root: trace

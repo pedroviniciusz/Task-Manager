@@ -7,25 +7,29 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="api-gateway" />
-        <module name="api-config-server" />
-        <module name="api-naming-server" />
+        <module name="auth-api" />
+        <module name="task-api" />
+        <module name="config-server-api" />
+        <module name="gateway-api" />
+        <module name="user-api" />
+        <module name="naming-server-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="api-auth" target="17" />
       <module name="api-config-repo" target="17" />
       <module name="naming-server" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="api-auth" options="-parameters" />
       <module name="api-config-repo" options="-parameters" />
-      <module name="api-config-server" options="-parameters" />
-      <module name="api-gateway" options="-parameters" />
-      <module name="api-naming-server" options="-parameters" />
+      <module name="auth-api" options="-parameters" />
+      <module name="config-server-api" options="-parameters" />
+      <module name="gateway-api" options="-parameters" />
       <module name="naming-server" options="-parameters" />
+      <module name="naming-server-api" options="-parameters" />
+      <module name="task-api" options="-parameters" />
+      <module name="user-api" options="-parameters" />
     </option>
   </component>
 </project>
