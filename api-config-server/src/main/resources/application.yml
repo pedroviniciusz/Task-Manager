@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: api-config-server
-  profiles:
-    active: '@spring.profiles.active@'
-server:
-  port: 8888
