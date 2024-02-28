@@ -21,7 +21,7 @@ public class GatewayConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(path -> {
-                            path.pathMatchers(HttpMethod.POST, "/api/user").permitAll();
+                            path.pathMatchers(HttpMethod.POST, "/api/users").permitAll();
                             path.pathMatchers("/api/auth/token",
                                             "/api/auth/validate",
                                             "/eureka",

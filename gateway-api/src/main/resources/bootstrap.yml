@@ -16,7 +16,7 @@ spring:
         - id: task-api
           uri: lb://TASK-API
           predicates:
-            - Path=/api/task/**
+            - Path=/api/tasks/**
           filters:
             - AuthenticationFilter
             - RewritePath=/api/task/(?<path>.*), /$\{path}
@@ -24,7 +24,7 @@ spring:
         - id: user-api
           uri: lb://USER-API
           predicates:
-            - Path=/api/user/**
+            - Path=/api/users/**
           filters:
             - AuthenticationFilter
             - RewritePath=/api/user/(?<path>.*), /$\{path}

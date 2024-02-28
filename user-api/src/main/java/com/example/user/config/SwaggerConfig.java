@@ -1,4 +1,4 @@
-package com.example.task.config;
+package com.example.user.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -14,8 +14,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("TASK API")
-                        .description("Tasks")
+                .info(new Info().title("User API")
+                        .description("Users")
                         .version("1.0")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")));
 
