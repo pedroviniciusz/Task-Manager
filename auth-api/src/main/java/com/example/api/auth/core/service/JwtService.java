@@ -1,6 +1,7 @@
 package com.example.api.auth.core.service;
 
 import com.example.api.auth.core.util.EnvUtil;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -11,11 +12,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.joining;
 
 @Service
 @RequiredArgsConstructor
@@ -28,19 +27,17 @@ public class JwtService {
     }
 
     public String generateToken(Authentication authentication) {
-        Collection<String> authorities = authentication.getAuthorities()
+        String username = authentication.getName();
+
+        Claims claims = Jwts.claims().setSubject(username);
+
+        claims.put("authorities", authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("authorities", authorities);
-        return createToken(claims, authentication.getName());
-    }
+                .collect(joining(",")));
 
-    private String createToken(Map<String, Object> claims, String username) {
         return Jwts.builder()
-                .addClaims(claims)
-                .setSubject(username)
+                .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(env.getProperty("auth.expiration.time"))))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();

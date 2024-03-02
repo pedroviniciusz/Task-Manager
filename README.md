@@ -7,7 +7,7 @@ Este é um projeto baseado em microsserviços para o gereciamento de tarefas. Ut
 
 - **Config-Server-Api**: Armazena as configurações dos microsserviços em um [repositório](https://github.com/pedroviniciusz/api-config-repo)
 - **Naming-Server-Api**: Utiliza o service discovery
-- **Gateway-Api**: Roteia as chamadas para o microsserviço requisitado
+- **Gateway-Api**: Roteia e decodifica o JWT para autorizar ou não as chamadas para o microsserviço requisitado
 - **Auth-Api**: Cria tokens JWT para autenticação
 - **Task-Api**: Faz o CRUD das tarefas
 - **User-Api**: Faz o CRUD dos usuários

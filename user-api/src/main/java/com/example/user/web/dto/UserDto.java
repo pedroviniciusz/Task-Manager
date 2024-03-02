@@ -3,6 +3,9 @@ package com.example.user.web.dto;
 import com.example.user.core.entity.User;
 import lombok.Getter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public class UserDto {
 
@@ -18,6 +21,10 @@ public class UserDto {
 
     public static UserDto transferToDto(User user) {
         return new UserDto(user);
+    }
+
+    public static List<UserDto> transferToDtoList(List<User> users) {
+        return users.stream().map(UserDto::new).collect(Collectors.toList());
     }
 
 }

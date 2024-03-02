@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -17,6 +19,11 @@ public class UserController extends BaseRestController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable int id) {
         return writeResponseBody(UserDto.transferToDto(service.findUserById(id)));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDto>> findById() {
+        return writeResponseBody(UserDto.transferToDtoList(service.findAllUsers()));
     }
 
     @PostMapping

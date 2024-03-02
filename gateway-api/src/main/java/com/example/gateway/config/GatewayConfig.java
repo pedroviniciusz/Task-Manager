@@ -1,27 +1,31 @@
 package com.example.gateway.config;
 
+import com.example.gateway.core.service.JwtService;
 import com.example.gateway.filter.AuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 
 @Configuration
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
 public class GatewayConfig {
 
-    private final AuthorizationFilter authorizationFilter;
-
     @Bean
-    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
+    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http, JwtService jwtService) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(path -> {
                             path.pathMatchers(HttpMethod.POST, "/api/users").permitAll();
+                            path.pathMatchers(HttpMethod.GET, "/api/users/all").hasRole("ADMIN");
                             path.pathMatchers("/api/auth/token",
                                             "/api/auth/validate",
                                             "/eureka",
@@ -32,7 +36,7 @@ public class GatewayConfig {
                                     .anyExchange().authenticated();
                         }
                 )
-                .securityContextRepository(authorizationFilter)
+                .addFilterAt(new AuthorizationFilter(jwtService), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();
     }
 }

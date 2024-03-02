@@ -19,7 +19,7 @@ spring:
             - Path=/api/tasks/**
           filters:
             - AuthenticationFilter
-            - RewritePath=/api/task/(?<path>.*), /$\{path}
+            - RewritePath=/api/tasks/(?<path>.*), /$\{path}
 
         - id: user-api
           uri: lb://USER-API
@@ -27,7 +27,7 @@ spring:
             - Path=/api/users/**
           filters:
             - AuthenticationFilter
-            - RewritePath=/api/user/(?<path>.*), /$\{path}
+            - RewritePath=/api/users/(?<path>.*), /$\{path}
       discovery:
         locator:
           enabled: true
@@ -38,17 +38,17 @@ springdoc:
   group-configs:
     - group: TASK-API
       paths-to-match:
-        - /api/task/**
+        - /api/tasks/**
       display-name: Task Api
     - group: USER-API
       paths-to-match:
-        - /api/user/**
+        - /api/users/**
       display-name: User Api
   swagger-ui:
     config-url: /v3/api-docs/swagger-config
     url: /v3/api-docs
     urls:
-      - url: /api/task/v3/api-docs
+      - url: /api/tasks/v3/api-docs
         name: Task Api
-      - url: /api/user/v3/api-docs
+      - url: /api/users/v3/api-docs
         name: User Api

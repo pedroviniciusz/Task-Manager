@@ -9,6 +9,8 @@ import com.example.user.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.example.user.core.util.NullUtil.isNullOrEmpty;
 
 @Service
@@ -20,6 +22,10 @@ public class UserService {
 
     public User findUserById(int id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("There is no user by this id"));
+    }
+
+    public List<User> findAllUsers() {
+        return repository.findAll();
     }
 
     public void createUser(User user) {

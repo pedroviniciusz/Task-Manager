@@ -25,7 +25,7 @@ public class TaskController extends BaseRestController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<TaskDto>> findByLoggedInUser(@RequestHeader(name = "loggendInUser") String username) {
+    public ResponseEntity<List<TaskDto>> findByLoggedInUser(@RequestHeader(name = "loggedInUser") String username) {
         User user = userService.findByUsername(username);
         return writeResponseBody(TaskDto.transferToDtoList(service.findTaskByUser(user.getId())));
     }
