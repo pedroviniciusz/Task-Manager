@@ -8,3 +8,9 @@ spring:
     show-sql: true
 server:
   port: 8768
+
+springdoc:
+  api-docs:
+    path: /api/user/v3/api-docs
+  swagger-ui:
+    path: /api/user/swagger-ui.html

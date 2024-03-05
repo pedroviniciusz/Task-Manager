@@ -16,18 +16,16 @@ spring:
         - id: task-api
           uri: lb://TASK-API
           predicates:
-            - Path=/api/tasks/**
+            - Path=/api/task/**
           filters:
             - AuthenticationFilter
-            - RewritePath=/api/tasks/(?<path>.*), /$\{path}
 
         - id: user-api
           uri: lb://USER-API
           predicates:
-            - Path=/api/users/**
+            - Path=/api/user/**
           filters:
             - AuthenticationFilter
-            - RewritePath=/api/users/(?<path>.*), /$\{path}
       discovery:
         locator:
           enabled: true
@@ -35,20 +33,15 @@ server:
   port: 8765
 
 springdoc:
-  group-configs:
-    - group: TASK-API
-      paths-to-match:
-        - /api/tasks/**
-      display-name: Task Api
-    - group: USER-API
-      paths-to-match:
-        - /api/users/**
-      display-name: User Api
+  api-docs:
+    enabled: true
   swagger-ui:
+    enabled: true
+    disable-swagger-default-url: true
+    path: /swagger-ui.html
     config-url: /v3/api-docs/swagger-config
-    url: /v3/api-docs
     urls:
-      - url: /api/tasks/v3/api-docs
+      - url: /api/task/v3/api-docs
         name: Task Api
-      - url: /api/users/v3/api-docs
+      - url: /api/user/v3/api-docs
         name: User Api

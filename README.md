@@ -79,7 +79,7 @@ http://localhost:8761/
 ## Documentação
 Você pode checar a documentação como: controllers, entidades e etc. Basta escolher qual microsserviço a ser exibido em "Select a definition".
 ```
-http://localhost:8765/webjars/swagger-ui/index.html
+http://localhost:8765/swagger-ui.html
 ```
 
 ## Status do projeto

@@ -8,3 +8,9 @@ spring:
     show-sql: true
 server:
   port: 8767
+
+springdoc:
+  api-docs:
+    path: /api/task/v3/api-docs
+  swagger-ui:
+    path: /api/task/swagger-ui.html

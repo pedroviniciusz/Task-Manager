@@ -11,11 +11,13 @@ public class UserDto {
 
     private final int id;
     private final String username;
+    private final String cpf;
     private final String email;
 
     public UserDto(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
+        this.cpf = user.getCpf();
         this.email = user.getEmail();
     }
 
