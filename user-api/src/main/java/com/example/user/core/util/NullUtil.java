@@ -2,6 +2,8 @@ package com.example.user.core.util;
 
 public class NullUtil {
 
+    private NullUtil() {}
+
     public static boolean isNull(Object value) {
         return value == null;
     }
@@ -13,5 +15,4 @@ public class NullUtil {
     public static boolean isNullOrEmpty(String value) {
         return (value == null) || (value.trim().isEmpty());
     }
-
 }

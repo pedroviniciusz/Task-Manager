@@ -28,6 +28,9 @@ public class User extends BaseEntity {
     private String email;
 
     @Column
+    private String cpf;
+
+    @Column
     private String password;
 
     @Enumerated(EnumType.STRING)

@@ -49,34 +49,35 @@ http://localhost:8761/
 ### Auth-Api
 - **Função**: Gerar tokens JWT.
 - **Endpoints**:
-  | Path  | Descrição | Verbo |
-  | ------------- | ------------- | ------------- |
-  |/api/auth/token|Gera e retorna o JWT|POST|
+  | Path  | Descrição | Verbo | Role |
+  | ------------- | ------------- | ------------- | ------------- |
+  |/api/auth/token|Gera e retorna o JWT|POST| ADMIN/USER |
 
 ### Task-Api
 - **Função**: Realizar o CRUD das tarefas
 - **Endpoints**:
-  | Path  | Descrição | Verbo |
-  | ------------- | ------------- | ------------- |
-  |/api/tasks/{id}|Retorna a tarefa correspondente ao ID passado|GET|
-  |/api/tasks/user|Retorna as tarefas correspondentes ao usuário logado|GET|
-  |/api/tasks|Cria a tarefa|POST|
-  |/api/tasks/{id}|Atualiza os dados da tarefa pelo ID|PUT|
-  |/api/tasks/{id}|Deleta a tarefa pelo ID (Soft Delete)|DELETE|
+  | Path  | Descrição | Verbo | Role |
+  | ------------- | ------------- | ------------- | ------------- |
+  |/api/tasks/{id}|Retorna a tarefa correspondente ao ID passado|GET| ADMIN/USER |
+  |/api/tasks/user|Retorna as tarefas correspondentes ao usuário logado|GET| ADMIN/USER |
+  |/api/tasks|Cria a tarefa|POST| ADMIN/USER |
+  |/api/tasks/{id}|Atualiza os dados da tarefa pelo ID|PUT| ADMIN/USER |
+  |/api/tasks/{id}|Deleta a tarefa pelo ID (Soft Delete)|DELETE| ADMIN/USER |
 
   ### User-Api
 - **Função**: Realizar o CRUD de usuários
 - **Endpoints**:
-  | Path  | Descrição | Verbo |
-  | ------------- | ------------- | ------------- |
-  |/api/users/{id}|Retorna o usuário correspondente ao ID passado|GET|
-  |/api/users|Cria o usuário|POST|
-  |/api/users/{id}|Atualiza os dados do usuário pelo ID|PUT|
-  |/api/users/{id}|Deleta o usuário pelo ID (Soft Delete)|DELETE|
+  | Path  | Descrição | Verbo | Role |
+  | ------------- | ------------- | ------------- | ------------- |
+  |/api/users/{id}|Retorna o usuário correspondente ao ID passado|GET| ADMIN/USER |
+  |/api/users/all|Retorna todos os usuários cadastrados|GET| ADMIN |
+  |/api/users|Cria o usuário|POST| ADMIN/USER |
+  |/api/users/{id}|Atualiza os dados do usuário pelo ID|PUT| ADMIN/USER |
+  |/api/users/{id}|Deleta o usuário pelo ID (Soft Delete)|DELETE| ADMIN/USER |
 
 
 ## Documentação
-Você pode checar a documentação como: controllers, entidades e etc. Basta escolher qual microsserviço a ser exibido.
+Você pode checar a documentação como: controllers, entidades e etc. Basta escolher qual microsserviço a ser exibido em "Select a definition".
 ```
 http://localhost:8765/webjars/swagger-ui/index.html
 ```

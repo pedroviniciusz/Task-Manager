@@ -13,7 +13,7 @@ public class TaskDto {
     private final int id;
     private final String title;
     private final String description;
-    private final String endDate;
+    private final String dueDate;
     private final boolean completed;
     private final int priorityId;
     private final String priority;
@@ -22,7 +22,7 @@ public class TaskDto {
         this.id = task.getId();
         this.title = task.getTitle();
         this.description = task.getDescription();
-        this.endDate = task.getEndDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        this.dueDate = task.getDueDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
         this.completed = task.isCompleted();
         this.priorityId = task.getPriority().getId();
         this.priority = task.getPriority().getLevel();

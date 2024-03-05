@@ -19,6 +19,14 @@ public class TaskService {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("There is no Task by this id"));
     }
 
+    public List<Task> findTasksExpiringTomorrow(int userId) {
+        return repository.findTasksExpiringTomorrow(userId);
+    }
+
+    public List<Task> findExpiredTasks(int userId) {
+        return repository.findExpiredTasks(userId);
+    }
+
     public List<Task> findTaskByUser(int id) {
         return repository.findTaskByUserIdAndDeletedFalse(id);
     }
@@ -32,7 +40,7 @@ public class TaskService {
         Task task = findTaskById(id);
         task.setTitle(updatedTask.getTitle());
         task.setDescription(updatedTask.getDescription());
-        task.setEndDate(updatedTask.getEndDate());
+        task.setDueDate(updatedTask.getDueDate());
         task.setCompleted(updatedTask.isCompleted());
 
         repository.save(task);

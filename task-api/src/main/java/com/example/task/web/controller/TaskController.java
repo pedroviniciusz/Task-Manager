@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/api/task")
 @RequiredArgsConstructor
 public class TaskController extends BaseRestController {
 
@@ -22,6 +22,18 @@ public class TaskController extends BaseRestController {
     @GetMapping("/{id}")
     public ResponseEntity<TaskDto> findById(@PathVariable int id) {
         return writeResponseBody(TaskDto.transferToDto(service.findTaskById(id)));
+    }
+
+    @GetMapping("/expiring-tomorrow")
+    public ResponseEntity<List<TaskDto>> findTasksExpiringTomorrow(@RequestHeader(name = "loggedInUser") String username) {
+        User user = userService.findByUsername(username);
+        return writeResponseBody(TaskDto.transferToDtoList(service.findTasksExpiringTomorrow(user.getId())));
+    }
+
+    @GetMapping("/expired")
+    public ResponseEntity<List<TaskDto>> findExpiredTasks(@RequestHeader(name = "loggedInUser") String username) {
+        User user = userService.findByUsername(username);
+        return writeResponseBody(TaskDto.transferToDtoList(service.findExpiredTasks(user.getId())));
     }
 
     @GetMapping("/user")

@@ -24,15 +24,17 @@ public class GatewayConfig {
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(path -> {
-                            path.pathMatchers(HttpMethod.POST, "/api/users").permitAll();
-                            path.pathMatchers(HttpMethod.GET, "/api/users/all").hasRole("ADMIN");
+                            path.pathMatchers(HttpMethod.POST, "/api/user").permitAll();
+                            path.pathMatchers(HttpMethod.GET, "/api/user/all").hasRole("ADMIN");
+                            path.pathMatchers(HttpMethod.PATCH, "/api/user/update-cpf/**").hasRole("ADMIN");
                             path.pathMatchers("/api/auth/token",
                                             "/api/auth/validate",
                                             "/eureka",
                                             "/actuator/**",
                                             "/webjars/**",
                                             "/v3/api-docs/**",
-                                            "/*/*/v3/api-docs").permitAll()
+                                            "/*/*/v3/api-docs",
+                                            "/swagger-ui.html").permitAll()
                                     .anyExchange().authenticated();
                         }
                 )

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController extends BaseRestController {
 
@@ -39,6 +39,11 @@ public class UserController extends BaseRestController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable int id) {
         service.deleteUser(id);
+    }
+
+    @PatchMapping("/update-cpf/{id}")
+    public void updateCpf(@PathVariable int id, @RequestBody String cpf) {
+        service.updateCpf(id, cpf);
     }
 
 }

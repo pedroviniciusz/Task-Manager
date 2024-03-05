@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import static com.example.gateway.core.constants.Constants.AUTHORITIES;
 import static com.example.gateway.core.constants.Constants.AUTH_SECRET_TOKEN;
+import static com.example.gateway.core.util.NullUtil.isNotNull;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class JwtService {
         String user = extractUsername(token);
         return user != null;
     }
-    
+
     public String extractUsername(String token) {
         return getClaims(token).getBody().getSubject();
     }
@@ -53,10 +54,11 @@ public class JwtService {
 
         Object authoritiesClaim = claims.get(AUTHORITIES);
 
-        Collection<? extends GrantedAuthority> authorities = authoritiesClaim == null
-                ? AuthorityUtils.NO_AUTHORITIES
-                : AuthorityUtils
-                .commaSeparatedStringToAuthorityList(authoritiesClaim.toString());
+        Collection<? extends GrantedAuthority> authorities = AuthorityUtils.NO_AUTHORITIES;
+
+        if (isNotNull(authoritiesClaim)) {
+            authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesClaim.toString());
+        }
 
         return new UsernamePasswordAuthenticationToken(claims.getSubject(), token, authorities);
     }
