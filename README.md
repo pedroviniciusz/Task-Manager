@@ -18,11 +18,12 @@ Este é um projeto baseado em microsserviços para o gereciamento de tarefas. Ut
 - Docker
 
 ## Rodando o projeto
-1. **Rode o PostgreSQL com o Docker**:
+1. **Inicie os containers com o comando**:
    ```shell
-   docker run -p 5432:5432 -v /opt/database/task-manager-db:/var/lib/postgresql/data -e POSTGRES_PASSWORD=1234 -d postgres
+   docker-compose up
+   ```
 
-Este comando starta o PostgreSQL, que roda por padrão na porta 5432
+Este comando starta o PostgreSQL e Zipkin. Você pode conferir em [docker-compose.yml](https://github.com/pedroviniciusz/Task-Manager/blob/master/docker-compose.yml)
 
 
 ## Rodando os microsserviços
@@ -40,45 +41,19 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev ou test
 
 ## Registros no Eureka
 Você pode checar se todos estão registrados no Eureka com:
-```
+```shell
 http://localhost:8761/
 ```
 
-## Microsserviços
-
-### Auth-Api
-- **Função**: Gerar tokens JWT.
-- **Endpoints**:
-  | Path  | Descrição | Verbo | Role |
-  | ------------- | ------------- | ------------- | ------------- |
-  |/api/auth/token|Gera e retorna o JWT|POST| ADMIN/USER |
-
-### Task-Api
-- **Função**: Realizar o CRUD das tarefas
-- **Endpoints**:
-  | Path  | Descrição | Verbo | Role |
-  | ------------- | ------------- | ------------- | ------------- |
-  |/api/tasks/{id}|Retorna a tarefa correspondente ao ID passado|GET| ADMIN/USER |
-  |/api/tasks/user|Retorna as tarefas correspondentes ao usuário logado|GET| ADMIN/USER |
-  |/api/tasks|Cria a tarefa|POST| ADMIN/USER |
-  |/api/tasks/{id}|Atualiza os dados da tarefa pelo ID|PUT| ADMIN/USER |
-  |/api/tasks/{id}|Deleta a tarefa pelo ID (Soft Delete)|DELETE| ADMIN/USER |
-
-  ### User-Api
-- **Função**: Realizar o CRUD de usuários
-- **Endpoints**:
-  | Path  | Descrição | Verbo | Role |
-  | ------------- | ------------- | ------------- | ------------- |
-  |/api/users/{id}|Retorna o usuário correspondente ao ID passado|GET| ADMIN/USER |
-  |/api/users/all|Retorna todos os usuários cadastrados|GET| ADMIN |
-  |/api/users|Cria o usuário|POST| ADMIN/USER |
-  |/api/users/{id}|Atualiza os dados do usuário pelo ID|PUT| ADMIN/USER |
-  |/api/users/{id}|Deleta o usuário pelo ID (Soft Delete)|DELETE| ADMIN/USER |
-
-
-## Documentação
-Você pode checar a documentação como: controllers, entidades e etc. Basta escolher qual microsserviço a ser exibido em "Select a definition".
+## Tracing com Zipkin
+Você pode o tracing das requisições em:
+```shell
+http://localhost:9411/zipkin/
 ```
+
+## Swagger
+Você pode checar a documentação como: controllers, entidades e etc. Basta escolher qual microsserviço a ser exibido em "Select a definition" em:
+```shell
 http://localhost:8765/swagger-ui.html
 ```
 
@@ -89,5 +64,3 @@ O projeto ainda está em desenvolvimento, serão adicionados microsserviços par
 Além que será implementado lógicas utilizando RabbitMQ, FeignClient, Zipkin, dentre outros.
 
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
-
-
