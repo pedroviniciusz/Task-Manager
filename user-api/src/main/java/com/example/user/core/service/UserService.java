@@ -26,6 +26,10 @@ public class UserService {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("There is no user by this id"));
     }
 
+    public User findUserByUsername(String username) {
+        return repository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("There is no user by this username"));
+    }
+
     public List<User> findAllUsers() {
         return repository.findAll();
     }

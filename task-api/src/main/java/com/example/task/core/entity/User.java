@@ -23,6 +23,9 @@ public class User extends BaseEntity {
     private String username;
 
     @Column
+    private String cpf;
+
+    @Column
     private String email;
 
     public User(int id) {
