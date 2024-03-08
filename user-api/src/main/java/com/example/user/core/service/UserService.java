@@ -51,7 +51,6 @@ public class UserService {
         User user = findUserById(id);
         user.setUsername(updatedUser.getUsername());
         user.setEmail(updatedUser.getEmail());
-        user.setCpf(CpfUtil.formatCpf(user.getCpf()));
         enconder.encodePassword(user);
 
         repository.save(user);

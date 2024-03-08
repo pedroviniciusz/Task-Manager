@@ -7,11 +7,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class Enconder {
 
-    private BCryptPasswordEncoder encoder(){
+    private BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
-    public void encodePassword(User user){
+    public void encodePassword(User user) {
         user.setPassword(encoder().encode(user.getPassword()));
     }
 }

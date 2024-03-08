@@ -35,5 +35,5 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private UserRole role;
+    private UserRole userRole;
 }
