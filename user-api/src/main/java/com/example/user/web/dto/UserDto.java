@@ -4,7 +4,6 @@ import com.example.user.core.entity.User;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class UserDto {
@@ -26,7 +25,7 @@ public class UserDto {
     }
 
     public static List<UserDto> transferToDtoList(List<User> users) {
-        return users.stream().map(UserDto::new).collect(Collectors.toList());
+        return users.stream().map(UserDto::new).toList();
     }
 
 }

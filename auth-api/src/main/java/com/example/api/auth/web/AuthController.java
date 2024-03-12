@@ -4,7 +4,6 @@ import com.example.api.auth.core.entity.User;
 import com.example.api.auth.core.exception.AuthException;
 import com.example.api.auth.core.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,21 +18,19 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final JwtService service;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/token")
     public ResponseEntity<String> getToken(@RequestBody User user) {
         HttpHeaders responseHeaders = new HttpHeaders();
         try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
             if (authentication.isAuthenticated()) {
                 responseHeaders.set(HttpHeaders.AUTHORIZATION, service.generateToken(authentication));
             }
         } catch (AuthenticationException e) {
-            throw new AuthException("Invalid acess");
+            throw new AuthException("Invalid access");
         }
         return ResponseEntity.ok().headers(responseHeaders).body("");
     }

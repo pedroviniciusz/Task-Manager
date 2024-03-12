@@ -63,9 +63,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Should throw exception when there is no user by this id")
     void shouldThrowExceptionWhenThereIsNoUserById() {
-        final EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () -> {
-            service.findUserById(anyInt());
-        });
+        final EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () -> service.findUserById(anyInt()));
 
         assertThat(e.getMessage()).isEqualTo("There is no user by this id");
         verify(userRepository, times(1)).findById(anyInt());
@@ -89,9 +87,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Should throw exception when there is no user by this username")
     void shouldThrowExceptionWhenThereIsNoUserByUsername() {
-        final EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () -> {
-            service.findUserByUsername(anyString());
-        });
+        final EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () -> service.findUserByUsername(anyString()));
 
         assertThat(e.getMessage()).isEqualTo("There is no user by this username");
         verify(userRepository, times(1)).findByUsername(anyString());
@@ -126,9 +122,7 @@ class UserServiceTest {
     @DisplayName("Should throw exception if password is null when creating an user")
     void shouldThrowExceptionIfPasswordIsNullWhenCreatingUser() {
         user.setPassword("");
-        final UserException e = assertThrows(UserException.class, () -> {
-            service.createUser(user);
-        });
+        final UserException e = assertThrows(UserException.class, () -> service.createUser(user));
 
         assertThat(e.getMessage()).isEqualTo("Password can not be empty");
         verifyNoInteractions(userRepository);
@@ -140,9 +134,7 @@ class UserServiceTest {
     @DisplayName("Should throw exception if CPF is invalid")
     void shouldThrowExceptionIfCpfIsInvalidWhenCreatingUser(String cpf) {
         user.setCpf(cpf);
-        final UserException e = assertThrows(UserException.class, () -> {
-            service.createUser(user);
-        });
+        final UserException e = assertThrows(UserException.class, () -> service.createUser(user));
 
         assertThat(e.getMessage()).isEqualTo("Invalid CPF");
         verifyNoInteractions(userRepository);
@@ -154,9 +146,7 @@ class UserServiceTest {
     void shouldThrowExceptionIfHasAlreadyExistsUserByThisCpf() {
         when(userRepository.existsUserByCpf(anyString())).thenReturn(true);
 
-        final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> {
-            service.createUser(user);
-        });
+        final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> service.createUser(user));
 
         assertThat(e.getMessage()).isEqualTo("Already exists user by this CPF");
         verify(userRepository, times(0)).save(any());
@@ -168,9 +158,7 @@ class UserServiceTest {
     void shouldThrowExceptionIfHasAlreadyExistsUserByThisUsername() {
         when(userRepository.existsUserByUsername(anyString())).thenReturn(true);
 
-        final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> {
-            service.createUser(user);
-        });
+        final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> service.createUser(user));
 
         assertThat(e.getMessage()).isEqualTo("Already exists user by this username");
         verify(userRepository, times(0)).save(any());
@@ -182,9 +170,7 @@ class UserServiceTest {
     void shouldThrowExceptionIfHasAlreadyExistsUserByThisEmail() {
         when(userRepository.existsUserByEmail(anyString())).thenReturn(true);
 
-        final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> {
-            service.createUser(user);
-        });
+        final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> service.createUser(user));
 
         assertThat(e.getMessage()).isEqualTo("Already exists user by this email");
         verify(userRepository, times(0)).save(any());

@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class TaskDto {
@@ -17,6 +16,8 @@ public class TaskDto {
     private final boolean completed;
     private final int priorityId;
     private final String priority;
+    private final String status;
+    private final List<TaskItemDto> items;
 
     public TaskDto(Task task) {
         this.id = task.getId();
@@ -26,6 +27,8 @@ public class TaskDto {
         this.completed = task.isCompleted();
         this.priorityId = task.getPriority().getId();
         this.priority = task.getPriority().getLevel();
+        this.status = task.getStatus().getName();
+        this.items = getTaskItemDtos(task);
     }
 
     public static TaskDto transferToDto(Task task) {
@@ -33,7 +36,17 @@ public class TaskDto {
     }
 
     public static List<TaskDto> transferToDtoList(List<Task> taks) {
-        return taks.stream().map(TaskDto::new).collect(Collectors.toList());
+        return taks.stream().map(TaskDto::new).toList();
+    }
+
+    private List<TaskItemDto> getTaskItemDtos(Task task) {
+        return task.getItems().stream()
+                .map(item -> {
+                    TaskItemDto taskItemDto = new TaskItemDto();
+                    taskItemDto.setId(item.getId());
+                    taskItemDto.setDescription(item.getDescription());
+                    return taskItemDto;
+                }).toList();
     }
 
 }

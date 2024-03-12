@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 
+import static com.example.api.auth.core.constants.Constants.AUTH_EXPIRATION_TIME;
+import static com.example.api.auth.core.constants.Constants.AUTH_SECRET_TOKEN;
 import static java.util.stream.Collectors.joining;
 
 @Service
@@ -39,12 +41,12 @@ public class JwtService {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(env.getProperty("auth.expiration.time"))))
+                .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(env.getProperty(AUTH_EXPIRATION_TIME))))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(env.getProperty("auth.secret.token"));
+        byte[] keyBytes = Decoders.BASE64.decode(env.getProperty(AUTH_SECRET_TOKEN));
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

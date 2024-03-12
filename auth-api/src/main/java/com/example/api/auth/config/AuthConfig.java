@@ -1,7 +1,5 @@
 package com.example.api.auth.config;
 
-//import com.example.api.auth.config.filters.SecurityFilter;
-
 import com.example.api.auth.core.service.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -8,6 +8,8 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 import static com.example.gateway.core.constants.Constants.BEARER;
 
 @Component
@@ -25,13 +27,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             if (RouteValidator.isSecured.test(exchange.getRequest())) {
-                if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                    throw new GatewayException("Missing authorization header");
-                }
+                String authHeader = Objects.requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).getFirst();
 
-                String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-
-                if (authHeader != null && authHeader.startsWith(BEARER)) {
+                if (authHeader.startsWith(BEARER)) {
                     authHeader = authHeader.substring(7);
                 }
 

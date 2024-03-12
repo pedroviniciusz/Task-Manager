@@ -14,7 +14,7 @@ Este é um projeto baseado em microsserviços para o gereciamento de tarefas. Ut
 
 ## Pré-requisito
 - Java JDK 21 ou posterior
-- Spring Boot 3.x
+- Maven
 - Docker
 
 ## Rodando o projeto

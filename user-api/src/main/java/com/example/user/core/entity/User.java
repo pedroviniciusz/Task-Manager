@@ -34,6 +34,6 @@ public class User extends BaseEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(name = "role")
     private UserRole userRole;
 }

@@ -34,7 +34,7 @@ class UserRepositoryTest {
     void shouldFindByUsername() {
         Optional<User> foundedUser = this.userRepository.findByUsername(user.getUsername());
 
-        assertThat(foundedUser.isPresent()).isTrue();
+        assertThat(foundedUser).isPresent();
     }
 
     @Test
@@ -42,7 +42,7 @@ class UserRepositoryTest {
     void shouldNotFindByUsername() {
         Optional<User> foundedUser = this.userRepository.findByUsername("");
 
-        assertThat(foundedUser.isEmpty()).isTrue();
+        assertThat(foundedUser).isEmpty();
     }
 
     @Test

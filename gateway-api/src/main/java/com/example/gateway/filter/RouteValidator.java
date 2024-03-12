@@ -3,7 +3,7 @@ package com.example.gateway.filter;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
 import java.util.function.Predicate;
 
 @Component
@@ -18,7 +18,10 @@ public class RouteValidator {
             "/v3/api-docs",
             "/swagger-ui.html"
     );
-
-    public static Predicate<ServerHttpRequest> isSecured =
+    public static final Predicate<ServerHttpRequest> isSecured =
             request -> openApiEndpoints.stream().noneMatch(uri -> request.getURI().getPath().contains(uri));
+
+    private RouteValidator() {
+
+    }
 }

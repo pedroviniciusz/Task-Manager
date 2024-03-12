@@ -15,6 +15,8 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.util.Objects;
+
 import static com.example.gateway.core.constants.Constants.LOGGED_IN_USER;
 
 @Component
@@ -30,7 +32,8 @@ public class AuthorizationFilter implements WebFilter {
 
         if (RouteValidator.isSecured.test(req)) {
             try {
-                final String authHeader = req.getHeaders().getFirst(HttpHeaders.AUTHORIZATION).substring(7);
+                final String authHeader = Objects.requireNonNull(req.getHeaders().getFirst(HttpHeaders.AUTHORIZATION)).substring(7);
+
                 boolean hasAccess = jwtService.hasAcess(authHeader);
 
                 if (!hasAccess) {
@@ -48,8 +51,9 @@ public class AuthorizationFilter implements WebFilter {
                 throw new GatewayException("Authorization header has expired");
             } catch (JwtException e) {
                 throw new GatewayException("Authorization header is invalid");
+            } catch (NullPointerException e) {
+                throw new GatewayException("Missing authorization header");
             }
-
         }
         return chain.filter(exchange);
     }

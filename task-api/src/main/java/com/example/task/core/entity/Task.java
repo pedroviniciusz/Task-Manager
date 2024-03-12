@@ -1,22 +1,21 @@
 package com.example.task.core.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Table(name = "task")
 @Entity(name = "task")
 @SQLDelete(sql = "UPDATE task SET deleted = true WHERE id=?")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@SQLRestriction("deleted = false")
+@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
+@Builder
 public class Task extends BaseEntity {
 
     @Serial
@@ -38,9 +37,16 @@ public class Task extends BaseEntity {
     @Column
     private boolean completed;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "priority_id")
     private TaskPriority priority;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "status_id")
+    private TaskStatus status;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    private List<TaskItem> items;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

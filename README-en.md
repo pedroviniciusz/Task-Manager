@@ -14,7 +14,7 @@ This project is a microservice-based system for tasks management. It's using Spr
 
 ## Prerequisites
 - Java JDK 21 or later
-- Spring Boot 3.x
+- Maven
 - Docker
 
 ## Starting up the docker

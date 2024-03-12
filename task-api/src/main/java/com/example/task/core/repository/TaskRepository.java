@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
-    List<Task> findTaskByUserIdAndDeletedFalse(int id);
+    List<Task> findTaskByUserId(int id);
 
     @Query(value = """
             SELECT * FROM task t

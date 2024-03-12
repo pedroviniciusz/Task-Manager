@@ -34,7 +34,7 @@ public class TaskService {
 
     public List<Task> findTaskByUser(String username) {
         int userId = getUserClient(username).getId();
-        return repository.findTaskByUserIdAndDeletedFalse(userId);
+        return repository.findTaskByUserId(userId);
     }
 
     public void createTask(Task task) {
