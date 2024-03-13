@@ -18,7 +18,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
             WHERE t.user_id = :userId
             AND t.completed = false
             AND t.deleted = false
-            AND date(t.due_date) = CURRENT_DATE + 1""",
+            AND CAST(t.due_date as DATE) = CURRENT_DATE + 1""",
             nativeQuery = true)
     List<Task> findTasksExpiringTomorrow(@Param("userId") Integer userId);
 
@@ -27,7 +27,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
             WHERE t.user_id = :userId
             AND t.completed = false
             AND t.deleted = false
-            AND date(t.due_date) <= CURRENT_DATE""",
+            AND CAST(t.due_date as DATE) <= CURRENT_DATE""",
             nativeQuery = true)
     List<Task> findExpiredTasks(@Param("userId") Integer userId);
 

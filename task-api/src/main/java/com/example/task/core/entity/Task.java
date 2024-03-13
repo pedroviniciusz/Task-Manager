@@ -37,11 +37,11 @@ public class Task extends BaseEntity {
     @Column
     private boolean completed;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "priority_id")
     private TaskPriority priority;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "status_id")
     private TaskStatus status;
 
