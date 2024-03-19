@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +18,9 @@ import static com.example.api.auth.core.constants.Constants.USER;
 
 @Table(name = "users")
 @Entity(name = "users")
+@SQLRestriction("deleted = false")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class User implements UserDetails {
 
     public User(User user) {

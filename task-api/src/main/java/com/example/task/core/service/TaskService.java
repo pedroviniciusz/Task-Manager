@@ -16,7 +16,7 @@ import java.util.List;
 public class TaskService {
 
     private final TaskRepository repository;
-    private final UserClient userInterface;
+    private final UserClient userClient;
 
     public Task findTaskById(int id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("There is no Task by this id"));
@@ -58,7 +58,7 @@ public class TaskService {
     }
 
     private User getUserClient(String username) {
-        return userInterface.findByUsername(username).getBody();
+        return userClient.findByUsername(username).getBody();
     }
 
 }
