@@ -54,6 +54,14 @@ http://localhost:9411/zipkin/
 ```
 ![Print do Zipkin](https://github.com/pedroviniciusz/Task-Manager/assets/86628590/9fbe0eb5-d079-4c64-8ae9-a144f05bafde)
 
+## RabbitMQ
+Você pode checar o painel do RabbitMQ em: <br />
+Usuário: Guest <br />
+Senha: Guest
+```shell
+http://localhost:15672/
+```
+![Print do RabbitMQ](https://github.com/pedroviniciusz/Task-Manager/assets/86628590/4bd65f48-16a3-47a6-975e-143228d3971b)
 
 ## Swagger
 Você pode checar a documentação como: controllers, entidades e etc. Basta escolher qual microsserviço a ser exibido em "Select a definition" em:

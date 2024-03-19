@@ -5,8 +5,10 @@ import com.example.user.core.entity.User;
 import com.example.user.core.exception.DuplicateEntityException;
 import com.example.user.core.exception.EntityNotFoundException;
 import com.example.user.core.exception.UserException;
+import com.example.user.core.producer.RabbitMQProducer;
 import com.example.user.core.repository.UserRepository;
 import com.example.user.core.util.CpfUtil;
+import com.example.user.web.dto.EmailDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class UserService {
 
     private final UserRepository repository;
     private final Enconder enconder;
+    private final RabbitMQProducer producer;
 
     public User findUserById(int id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("There is no user by this id"));
@@ -41,6 +44,7 @@ public class UserService {
         user.setCpf(CpfUtil.formatCpf(user.getCpf()));
         enconder.encodePassword(user);
 
+        producer.sendMessage(new EmailDto(user.getEmail(), "WELCOME", "Welcome to our Community"));
         repository.save(user);
     }
 

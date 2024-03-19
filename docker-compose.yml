@@ -17,3 +17,10 @@ services:
     ports:
       - 9411:9411
     container_name: zipkin
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    container_name: rabbitmq

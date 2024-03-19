@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: email-api
+  cloud:
+    config:
+      uri: http://localhost:8888
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+    username: 'taask.manager1@gmail.com'
+    password: 'xxxxxxxxxxxx'
+    port: 587
+server:
+  port: 8769

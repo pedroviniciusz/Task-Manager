@@ -54,6 +54,15 @@ http://localhost:9411/zipkin/
 ```
 ![Print Zipkin](https://github.com/pedroviniciusz/Task-Manager/assets/86628590/9fbe0eb5-d079-4c64-8ae9-a144f05bafde)
 
+## RabbitMQ
+RabbitMQ interface is avaliable at: <br />
+User: Guest <br />
+Password: Guest
+```shell
+http://localhost:15672/
+```
+![Print RabbitMQ](https://github.com/pedroviniciusz/Task-Manager/assets/86628590/4bd65f48-16a3-47a6-975e-143228d3971b)
+
 
 ## Swagger
 You can check the microsservices documentation out like: controllers and entities. Just select which microservice you want to at:
