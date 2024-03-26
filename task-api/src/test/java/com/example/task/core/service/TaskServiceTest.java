@@ -2,6 +2,7 @@ package com.example.task.core.service;
 
 import com.example.task.core.entity.Task;
 import com.example.task.core.exception.EntityNotFoundException;
+import com.example.task.core.messages.Messages;
 import com.example.task.core.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,17 +11,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
+import static com.example.task.core.messages.Messages.TASK_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@ContextConfiguration(classes = {Messages.class, MessageSourceAutoConfiguration.class})
 class TaskServiceTest {
 
     @InjectMocks
@@ -28,6 +33,9 @@ class TaskServiceTest {
 
     @Mock
     TaskRepository taskRepository;
+
+    @Mock
+    Messages messages;
 
     Task task;
 
@@ -60,7 +68,7 @@ class TaskServiceTest {
     void shouldThrowExceptionWhenThereIsNoTaskById() {
         final EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () -> service.findTaskById(anyInt()));
 
-        assertThat(e.getMessage()).isEqualTo("There is no Task by this id");
+        assertThat(e.getMessage()).isEqualTo(messages.getMessage(TASK_NOT_FOUND));
         verify(taskRepository, times(1)).findById(anyInt());
         verifyNoMoreInteractions(taskRepository);
 

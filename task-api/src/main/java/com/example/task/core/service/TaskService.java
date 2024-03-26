@@ -4,6 +4,7 @@ import com.example.task.core.client.UserClient;
 import com.example.task.core.entity.Task;
 import com.example.task.core.entity.User;
 import com.example.task.core.exception.EntityNotFoundException;
+import com.example.task.core.messages.Messages;
 import com.example.task.core.repository.TaskRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -11,30 +12,30 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.task.core.messages.Messages.TASK_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class TaskService {
 
     private final TaskRepository repository;
     private final UserClient userClient;
+    private final Messages messages;
 
     public Task findTaskById(int id) {
-        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("There is no Task by this id"));
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(messages.getMessage(TASK_NOT_FOUND)));
     }
 
     public List<Task> findTasksExpiringTomorrow(String username) {
-        int userId = getUserClient(username).getId();
-        return repository.findTasksExpiringTomorrow(userId);
+        return repository.findTasksExpiringTomorrow(getUserClient(username).getId());
     }
 
     public List<Task> findExpiredTasks(String username) {
-        int userId = getUserClient(username).getId();
-        return repository.findExpiredTasks(userId);
+        return repository.findExpiredTasks(getUserClient(username).getId());
     }
 
     public List<Task> findTaskByUser(String username) {
-        int userId = getUserClient(username).getId();
-        return repository.findTaskByUserId(userId);
+        return repository.findTaskByUserId(getUserClient(username).getId());
     }
 
     public void createTask(Task task) {

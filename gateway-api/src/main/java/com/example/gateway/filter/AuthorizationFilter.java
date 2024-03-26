@@ -1,6 +1,7 @@
 package com.example.gateway.filter;
 
 import com.example.gateway.core.exception.GatewayException;
+import com.example.gateway.core.messages.Messages;
 import com.example.gateway.core.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -18,12 +19,14 @@ import reactor.core.scheduler.Schedulers;
 import java.util.Objects;
 
 import static com.example.gateway.core.constants.Constants.LOGGED_IN_USER;
+import static com.example.gateway.core.messages.Messages.*;
 
 @Component
 @RequiredArgsConstructor
 public class AuthorizationFilter implements WebFilter {
 
     private final JwtService jwtService;
+    private final Messages messages;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -37,7 +40,7 @@ public class AuthorizationFilter implements WebFilter {
                 boolean hasAccess = jwtService.hasAcess(authHeader);
 
                 if (!hasAccess) {
-                    throw new GatewayException("Authorization header is invalid");
+                    throw new GatewayException(messages.getMessage(AUTH_HEADER_IS_INVALID));
                 }
 
                 req.mutate().header(LOGGED_IN_USER, jwtService.extractUsername(authHeader)).build();
@@ -48,11 +51,11 @@ public class AuthorizationFilter implements WebFilter {
                                 .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication)));
 
             } catch (ExpiredJwtException e) {
-                throw new GatewayException("Authorization header has expired");
+                throw new GatewayException(messages.getMessage(AUTH_HEADER_HAS_EXPIRED));
             } catch (JwtException e) {
-                throw new GatewayException("Authorization header is invalid");
+                throw new GatewayException(messages.getMessage(AUTH_HEADER_IS_INVALID));
             } catch (NullPointerException e) {
-                throw new GatewayException("Missing authorization header");
+                throw new GatewayException(messages.getMessage(MISSING_AUTH_HEADER));
             }
         }
         return chain.filter(exchange);

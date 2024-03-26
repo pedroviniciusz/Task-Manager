@@ -1,0 +1,5 @@
+auth:
+  header:
+    invalid: "Authorization header is invalid"
+    expired: "Authorization header has expired"
+    missing: "Missing authorization header"

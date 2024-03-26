@@ -1,6 +1,7 @@
 package com.example.gateway.filter;
 
 import com.example.gateway.core.exception.GatewayException;
+import com.example.gateway.core.messages.Messages;
 import com.example.gateway.core.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 import static com.example.gateway.core.constants.Constants.BEARER;
+import static com.example.gateway.core.messages.Messages.AUTH_HEADER_IS_INVALID;
 
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
@@ -18,6 +20,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private Messages messages;
 
     public AuthenticationFilter() {
         super(Config.class);
@@ -36,7 +41,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 try {
                     jwtService.validateToken(authHeader);
                 } catch (Exception e) {
-                    throw new GatewayException("Authorization header is invalid");
+                    throw new GatewayException(messages.getMessage(AUTH_HEADER_IS_INVALID));
                 }
 
             }

@@ -1,0 +1,33 @@
+user:
+  not:
+    found: "Usuário não encontrado"
+
+invalid:
+  cpf: "CPF inválido"
+
+password:
+  cant:
+    be:
+      empty: "A senha não pode ser vazia"
+
+already:
+  exists:
+    user:
+      cpf: "Já existe usuário com este CPF"
+      username: "Já existe usuário com este username"
+      email: "Já existe usuário com este email"
+
+email:
+  subject: "Bem-vindo à nossa comunidade!"
+  body: "Olá {0},
+
+Bem-vindo à nossa comunidade! Estamos muito felizes em tê-lo(a) conosco.
+
+Esperamos que você aproveite ao máximo nossa plataforma e encontre todo o suporte e recursos necessários para suas necessidades.
+
+Se precisar de ajuda ou tiver alguma dúvida, não hesite em entrar em contato conosco. Estamos aqui para ajudar!
+
+Desejamos a você uma ótima jornada conosco.
+
+Atenciosamente,
+Task Manager"

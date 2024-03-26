@@ -1,5 +1,6 @@
 package com.example.gateway.config;
 
+import com.example.gateway.core.messages.Messages;
 import com.example.gateway.core.service.JwtService;
 import com.example.gateway.filter.AuthorizationFilter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 public class GatewayConfig {
 
     @Bean
-    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http, JwtService jwtService) {
+    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http, JwtService jwtService, Messages messages) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
@@ -38,7 +39,7 @@ public class GatewayConfig {
                                     .anyExchange().authenticated();
                         }
                 )
-                .addFilterAt(new AuthorizationFilter(jwtService), SecurityWebFiltersOrder.HTTP_BASIC)
+                .addFilterAt(new AuthorizationFilter(jwtService, messages), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();
     }
 }

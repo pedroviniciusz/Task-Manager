@@ -1,12 +1,12 @@
 package com.example.gateway.core.service;
 
-import com.example.gateway.core.util.EnvUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,14 +17,14 @@ import java.security.Key;
 import java.util.Collection;
 
 import static com.example.gateway.core.constants.Constants.AUTHORITIES;
-import static com.example.gateway.core.constants.Constants.AUTH_SECRET_TOKEN;
 import static com.example.gateway.core.util.NullUtil.isNotNull;
 
 @Service
 @RequiredArgsConstructor
 public class JwtService {
 
-    private final EnvUtil env;
+    @Value("${auth.secret.token}")
+    private String authSecretToken;
 
     public void validateToken(final String token) {
         getClaims(token);
@@ -35,7 +35,7 @@ public class JwtService {
     }
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(env.getProperty(AUTH_SECRET_TOKEN));
+        byte[] keyBytes = Decoders.BASE64.decode(authSecretToken);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

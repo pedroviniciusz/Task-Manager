@@ -1,0 +1,5 @@
+auth:
+  header:
+    invalid: "Header de autorização é inválido"
+    expired: "Header de autorização expirou"
+    missing: "Header de autorização está faltando"

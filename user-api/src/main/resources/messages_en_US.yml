@@ -1,0 +1,33 @@
+user:
+  not:
+    found: "User not found"
+
+invalid:
+  cpf: "Invalid CPF"
+
+password:
+  cant:
+    be:
+      empty: "Password can not be empty"
+
+already:
+  exists:
+    user:
+      cpf: "Already exists user by this CPF"
+      username: "Already exists user by this username"
+      email: "Already exists user by this e-mail"
+
+email:
+  subject: "Welcome to Our Community!"
+  body: "Hello {0},
+
+Welcome to our community! We're thrilled to have you onboard.
+
+We hope you'll make the most of our platform and find all the support and resources you need for your endeavors.
+
+If you need assistance or have any questions, don't hesitate to reach out to us. We're here to help!
+
+Wishing you a fantastic journey with us.
+
+Best regards,
+Task Manager"

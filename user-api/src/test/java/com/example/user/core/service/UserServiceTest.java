@@ -6,6 +6,8 @@ import com.example.user.core.enums.UserRole;
 import com.example.user.core.exception.DuplicateEntityException;
 import com.example.user.core.exception.EntityNotFoundException;
 import com.example.user.core.exception.UserException;
+import com.example.user.core.messages.Messages;
+import com.example.user.core.producer.RabbitMQProducer;
 import com.example.user.core.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,17 +18,21 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.user.core.messages.Messages.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@ContextConfiguration(classes = {Messages.class, MessageSourceAutoConfiguration.class})
 class UserServiceTest {
 
     @InjectMocks
@@ -37,6 +43,12 @@ class UserServiceTest {
 
     @Mock
     Enconder enconder;
+
+    @Mock
+    Messages messages;
+
+    @Mock
+    RabbitMQProducer rabbitMQProducer;
 
     User user;
 
@@ -65,7 +77,7 @@ class UserServiceTest {
     void shouldThrowExceptionWhenThereIsNoUserById() {
         final EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () -> service.findUserById(anyInt()));
 
-        assertThat(e.getMessage()).isEqualTo("There is no user by this id");
+        assertThat(e.getMessage()).isEqualTo(messages.getMessage(USER_NOT_FOUND));
         verify(userRepository, times(1)).findById(anyInt());
         verifyNoMoreInteractions(userRepository);
 
@@ -89,7 +101,7 @@ class UserServiceTest {
     void shouldThrowExceptionWhenThereIsNoUserByUsername() {
         final EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () -> service.findUserByUsername(anyString()));
 
-        assertThat(e.getMessage()).isEqualTo("There is no user by this username");
+        assertThat(e.getMessage()).isEqualTo(messages.getMessage(USER_NOT_FOUND));
         verify(userRepository, times(1)).findByUsername(anyString());
         verifyNoMoreInteractions(userRepository);
 
@@ -124,7 +136,7 @@ class UserServiceTest {
         user.setPassword("");
         final UserException e = assertThrows(UserException.class, () -> service.createUser(user));
 
-        assertThat(e.getMessage()).isEqualTo("Password can not be empty");
+        assertThat(e.getMessage()).isEqualTo(messages.getMessage(PASSWORD_CANT_BE_EMPTY));
         verifyNoInteractions(userRepository);
 
     }
@@ -136,7 +148,7 @@ class UserServiceTest {
         user.setCpf(cpf);
         final UserException e = assertThrows(UserException.class, () -> service.createUser(user));
 
-        assertThat(e.getMessage()).isEqualTo("Invalid CPF");
+        assertThat(e.getMessage()).isEqualTo(messages.getMessage(INVALID_CPF));
         verifyNoInteractions(userRepository);
 
     }
@@ -148,7 +160,7 @@ class UserServiceTest {
 
         final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> service.createUser(user));
 
-        assertThat(e.getMessage()).isEqualTo("Already exists user by this CPF");
+        assertThat(e.getMessage()).isEqualTo(messages.getMessage(ALREADY_EXISTS_USER_BY_THIS_CPF));
         verify(userRepository, times(0)).save(any());
 
     }
@@ -160,7 +172,7 @@ class UserServiceTest {
 
         final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> service.createUser(user));
 
-        assertThat(e.getMessage()).isEqualTo("Already exists user by this username");
+        assertThat(e.getMessage()).isEqualTo(messages.getMessage(ALREADY_EXISTS_USER_BY_THIS_USERNAME));
         verify(userRepository, times(0)).save(any());
 
     }
@@ -172,7 +184,7 @@ class UserServiceTest {
 
         final DuplicateEntityException e = assertThrows(DuplicateEntityException.class, () -> service.createUser(user));
 
-        assertThat(e.getMessage()).isEqualTo("Already exists user by this email");
+        assertThat(e.getMessage()).isEqualTo(messages.getMessage(ALREADY_EXISTS_USER_BY_THIS_EMAIL));
         verify(userRepository, times(0)).save(any());
 
     }
@@ -187,7 +199,6 @@ class UserServiceTest {
         service.updateUser(1, updatedUser);
         assertEquals(user.getUsername(), updatedUser.getUsername());
         assertEquals(user.getEmail(), updatedUser.getEmail());
-        //assertEquals(user.getPassword(), updatedUser.getPassword());
         assertEquals(user.getUserRole().getRole(), updatedUser.getUserRole().getRole());
 
         verify(userRepository, times(1)).save(user);

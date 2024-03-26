@@ -1,6 +1,7 @@
 package com.example.user.core.service;
 
 import com.example.user.config.Enconder;
+import com.example.user.core.messages.Messages;
 import com.example.user.core.entity.User;
 import com.example.user.core.exception.DuplicateEntityException;
 import com.example.user.core.exception.EntityNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.user.core.messages.Messages.*;
 import static com.example.user.core.util.NullUtil.isNullOrEmpty;
 
 @Service
@@ -23,14 +25,15 @@ public class UserService {
 
     private final UserRepository repository;
     private final Enconder enconder;
-    private final RabbitMQProducer producer;
+    private final RabbitMQProducer rabbitMQProducer;
+    private final Messages messages;
 
     public User findUserById(int id) {
-        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("There is no user by this id"));
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(messages.getMessage(USER_NOT_FOUND)));
     }
 
     public User findUserByUsername(String username) {
-        return repository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("There is no user by this username"));
+        return repository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException(messages.getMessage(USER_NOT_FOUND)));
     }
 
     public List<User> findAllUsers() {
@@ -44,7 +47,8 @@ public class UserService {
         user.setCpf(CpfUtil.formatCpf(user.getCpf()));
         enconder.encodePassword(user);
 
-        producer.sendMessage(new EmailDto(user.getEmail(), "WELCOME", "Welcome to our Community"));
+        rabbitMQProducer.sendMessage(new EmailDto(user.getEmail(), messages.getMessage(SUBJECT), messages.getMessage(BODY, user.getUsername())));
+
         repository.save(user);
     }
 
@@ -68,7 +72,7 @@ public class UserService {
     public void updateCpf(int id, String cpf) {
 
         if (!CpfUtil.isCpf(cpf))
-            throw new UserException("Invalid CPF");
+            throw new UserException(messages.getMessage(INVALID_CPF));
 
         repository.updateCpf(CpfUtil.formatCpf(cpf), id);
     }
@@ -76,19 +80,19 @@ public class UserService {
     private void validate(User user) {
 
         if (isNullOrEmpty(user.getPassword()))
-            throw new UserException("Password can not be empty");
+            throw new UserException(messages.getMessage(PASSWORD_CANT_BE_EMPTY));
 
         if (!CpfUtil.isCpf(user.getCpf()))
-            throw new UserException("Invalid CPF");
+            throw new UserException(messages.getMessage(INVALID_CPF));
 
         if (repository.existsUserByCpf(CpfUtil.formatCpf(user.getCpf())))
-            throw new DuplicateEntityException("Already exists user by this CPF");
+            throw new DuplicateEntityException(messages.getMessage(ALREADY_EXISTS_USER_BY_THIS_CPF));
 
         if (repository.existsUserByUsername(user.getUsername()))
-            throw new DuplicateEntityException("Already exists user by this username");
+            throw new DuplicateEntityException(messages.getMessage(ALREADY_EXISTS_USER_BY_THIS_USERNAME));
 
         if (repository.existsUserByEmail(user.getEmail()))
-            throw new DuplicateEntityException("Already exists user by this email");
+            throw new DuplicateEntityException(messages.getMessage(ALREADY_EXISTS_USER_BY_THIS_EMAIL));
 
     }
 
