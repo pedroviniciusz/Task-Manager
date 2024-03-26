@@ -11,6 +11,7 @@ This project is a microservice-based system for tasks management. It's using Spr
 - **Auth-Api**: Generates JWT Tokens for authetication and authorization
 - **Task-Api**: Tasks CRUD
 - **User-Api**: Users CRUD
+- **Email-Api**: Sends e-mails when registering a user (will also send tasks that are close to the deadline later).
 
 ## Prerequisites
 - Java JDK 21 or later

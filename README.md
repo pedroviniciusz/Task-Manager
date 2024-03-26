@@ -11,6 +11,7 @@ Este é um projeto baseado em microsserviços para o gereciamento de tarefas. Ut
 - **Auth-Api**: Cria tokens JWT para autenticação e autorização
 - **Task-Api**: Faz o CRUD das tarefas
 - **User-Api**: Faz o CRUD dos usuários
+- **Email-Api**: Faz o envio de e-mails ao cadastrar um usuário (Posteriormente enviará tarefas que estão próximas da data limite também)
 
 ## Pré-requisito
 - Java JDK 21 ou posterior
